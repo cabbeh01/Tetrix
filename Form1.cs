@@ -8,7 +8,7 @@ namespace Tetris
     public partial class Form1 : Form
     {
         int playerCx;
-        int playerCy = 1;
+        int playerCy = -3;
         int playerdrop = 0;
         int height = 20;
         int width = 10;
@@ -100,10 +100,10 @@ namespace Tetris
                 { 0, 1, 1 }};
 
             int[,] brick7 = {
-                {0, 1, 0, 0 },
-                {0, 1, 0, 0 },
-                {0, 1, 0, 0 },
-                {0, 1, 0, 0 }};
+                {1, 1, 1, 1 },
+                {0, 0, 0, 0 },
+                {0, 0, 0, 0 },
+                {0, 0, 0, 0 }};
             int[,] empty = {
                 { 0,0 }};
 
@@ -247,8 +247,8 @@ namespace Tetris
             g = e.Graphics;
 
             DrawGameBoard(board);
-            DrawPlayer(useBrick);
-            DrawNextPlayer(Bricks(secondBrick));
+            DrawPlayer(useBrick,playerCx,playerCy,1);
+            DrawPlayer(Bricks(secondBrick), 31,8,0.5);
         }
 
         
@@ -277,7 +277,7 @@ namespace Tetris
             g.FillRectangle(new SolidBrush(Color.Black), SCALE * 11.5f + 52, SCALE * 2 + SCALE, SCALE * 5.9f, SCALE * 3);
         }
 
-        void DrawPlayer(int[,] matrix)
+        void DrawPlayer(int[,] matrix, int positionX, int positionY, double scalefactor)
         {
             for (int row = 0; row < matrix.GetLength(0); row++)
             {
@@ -285,22 +285,7 @@ namespace Tetris
                 {
                     if (matrix[row, colume] != 0)
                     {
-                        g.FillRectangle(brushPalette[firstBrick - 1], SCALE * (colume + playerCx), SCALE * (row + playerCy), SCALE, SCALE);
-                    }
-
-                }
-            }
-        }
-
-        void DrawNextPlayer(int[,] matrix)
-        {
-            for (int row = 0; row < matrix.GetLength(0); row++)
-            {
-                for (int colume = 0; colume < matrix.GetLength(1); colume++)
-                {
-                    if (!(matrix[row, colume] == 0))
-                    {
-                        g.FillRectangle(brushPalette[secondBrick - 1], SCALE * (colume + 25) / 2f + 100, SCALE * (row + 7) / 2f + 10, SCALE / 2f, SCALE / 2f);
+                        g.FillRectangle(brushPalette[firstBrick - 1],(int) ( SCALE * scalefactor * (colume + positionX)), (int)(SCALE * scalefactor *(row + positionY)), (int)(SCALE * scalefactor), (int)(SCALE * scalefactor));
                     }
 
                 }
